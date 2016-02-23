@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">Weather</string>
-    <string name="today">今天</string>
-    <string name="tomorrow">明天</string>
-    <string name="after">后天</string>
+    <string name="switch_city">切换城市</string>
+
+    <string name="dawn">黎明</string>
+    <string name="day">白天</string>
+    <string name="night">晚上</string>
+
+    <string name="beijing">北京</string>
+    <string name="shanghai">上海</string>
+    <string name="guangzhou">广州</string>
+    <string name="shenzhen">深圳</string>
 </resources>

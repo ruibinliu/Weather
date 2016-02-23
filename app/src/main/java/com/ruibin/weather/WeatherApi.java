@@ -1,5 +1,6 @@
 package com.ruibin.weather;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -11,7 +12,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 public class WeatherApi {
     private static final String WEATHER_API_ADDRESS = "http://www.ruibin.info/weather.php";
@@ -19,7 +21,17 @@ public class WeatherApi {
     private static final int READ_TIMEOUT = 10000;
 
     public static Weather getWeather() throws IOException {
-        String result = httpGet(WEATHER_API_ADDRESS);
+        return getWeather(null);
+    }
+
+    public static Weather getWeather(String city) throws IOException {
+        String result;
+        if (TextUtils.isEmpty(city)) {
+            result = httpGet(WEATHER_API_ADDRESS);
+        } else {
+            result = httpGet(WEATHER_API_ADDRESS + "?city=" + URLEncoder.encode(city, "UTF-8"));
+        }
+
         Log.d("Weather", "result: " + result);
         Gson gson = new Gson();
         Weather weather = gson.fromJson(result, Weather.class);

@@ -1,10 +1,16 @@
 package com.ruibin.weather;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -15,6 +21,8 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private Weather mWeather;
+    private String[] mCityList;
+    private int mCurrentCity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,15 +34,57 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle(getTitle());
 
         mRecyclerView = (RecyclerView) findViewById(R.id.weather_list);
-        setupRecyclerView();
+        getWeather();
+
+        if (mCityList == null) {
+            mCityList = getResources().getStringArray(R.array.city_list);
+            mCurrentCity = 0;
+        }
+
+        setTitle(mCityList[mCurrentCity]);
     }
 
-    private void setupRecyclerView() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        new MenuInflater(this).inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.menu_switch_city: {
+                switchCity();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void switchCity() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.switch_city);
+        builder.setItems(mCityList, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (mCurrentCity == which) return;
+
+                mCurrentCity = which;
+                setTitle(mCityList[mCurrentCity]);
+                getWeather();
+            }
+        });
+        builder.setNegativeButton(android.R.string.cancel, null);
+        builder.show();
+    }
+
+    private void getWeather() {
         new Thread() {
             @Override
             public void run() {
                 try {
-                    mWeather = WeatherApi.getWeather();
+                    mWeather = WeatherApi.getWeather(mCityList[mCurrentCity]);
 
                     runOnUiThread(new Runnable() {
                         @Override
@@ -83,17 +133,29 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return weather.getForecastList().size();
+            return weather.getForecast().length;
+        }
+
+        public Weather.Forecast getItem(int position) {
+            return weather.getForecast()[position];
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             public final View mView;
+            public final View mDawnLayout;
             public final View mDayLayout;
             public final TextView mTimeView;
+
+            public final ImageView mDawnWeatherView;
+            public final TextView mDawnTemperatureView;
+            public final TextView mDawnWindDirectionView;
+            public final TextView mDawnWindSpeedView;
+
             public final ImageView mDayWeatherView;
             public final TextView mDayTemperatureView;
             public final TextView mDayWindDirectionView;
             public final TextView mDayWindSpeedView;
+
             public final ImageView mNightWeatherView;
             public final TextView mNightTemperatureView;
             public final TextView mNightWindDirectionView;
@@ -102,8 +164,13 @@ public class MainActivity extends AppCompatActivity {
             public ViewHolder(View view) {
                 super(view);
                 mView = view;
+                mDawnLayout = view.findViewById(R.id.dawnLayout);
                 mDayLayout = view.findViewById(R.id.dayLayout);
                 mTimeView = (TextView)view.findViewById(R.id.time);
+                mDawnWeatherView = (ImageView) view.findViewById(R.id.dawn_weather);
+                mDawnTemperatureView = (TextView) view.findViewById(R.id.dawn_temperature);
+                mDawnWindDirectionView = (TextView) view.findViewById(R.id.dawn_wind_direction);
+                mDawnWindSpeedView = (TextView) view.findViewById(R.id.dawn_wind_speed);
                 mDayWeatherView = (ImageView) view.findViewById(R.id.day_weather);
                 mDayTemperatureView = (TextView) view.findViewById(R.id.day_temperature);
                 mDayWindDirectionView = (TextView) view.findViewById(R.id.day_wind_direction);
@@ -115,21 +182,21 @@ public class MainActivity extends AppCompatActivity {
             }
 
             public void bind(int position) {
-                Weather.Forecast item = weather.getForecastList().get(position);
+                Weather.Forecast item = getItem(position);
 
-                switch (position % 3) {
-                    case 0:
-                        mTimeView.setText(R.string.today);
-                        break;
-                    case 1:
-                        mTimeView.setText(R.string.tomorrow);
-                        break;
-                    case 2:
-                        mTimeView.setText(R.string.after);
-                        break;
+                mTimeView.setText(item.getDate());
+
+                if (item.isDawnAvailable()) {
+                    mDawnLayout.setVisibility(View.VISIBLE);
+                    mDawnWeatherView.setImageResource(item.getDawnWeatherIcon());
+                    mDawnTemperatureView.setText(item.getDayTemperature() + "℃");
+                    mDawnWindDirectionView.setText(item.getDayWindDirection());
+                    mDawnWindSpeedView.setText(item.getDayWindSpeed());
+                } else {
+                    mDawnLayout.setVisibility(View.GONE);
                 }
 
-                if (item.isDayForecastAvailable()) {
+                if (item.isDayAvailable()) {
                     mDayLayout.setVisibility(View.VISIBLE);
                     mDayWeatherView.setImageResource(item.getDayWeatherIcon());
                     mDayTemperatureView.setText(item.getDayTemperature() + "℃");

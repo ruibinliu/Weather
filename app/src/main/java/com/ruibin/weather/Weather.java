@@ -1,8 +1,5 @@
 package com.ruibin.weather;
 
-import android.text.TextUtils;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Weather {
@@ -12,16 +9,16 @@ public class Weather {
     private static final HashMap<String, String> WIND_SPEED_MAP = new HashMap<>();
 
     static {
-        WEATHER_DAY_ICON_MAP.put("00", R.mipmap.weather_day_00);
-        WEATHER_DAY_ICON_MAP.put("01", R.mipmap.weather_day_01);
-        WEATHER_DAY_ICON_MAP.put("02", R.mipmap.weather_day_02);
-        WEATHER_DAY_ICON_MAP.put("03", R.mipmap.weather_day_03);
-        WEATHER_DAY_ICON_MAP.put("04", R.mipmap.weather_day_04);
-        WEATHER_DAY_ICON_MAP.put("05", R.mipmap.weather_day_05);
-        WEATHER_DAY_ICON_MAP.put("06", R.mipmap.weather_day_06);
-        WEATHER_DAY_ICON_MAP.put("07", R.mipmap.weather_day_07);
-        WEATHER_DAY_ICON_MAP.put("08", R.mipmap.weather_day_08);
-        WEATHER_DAY_ICON_MAP.put("09", R.mipmap.weather_day_09);
+        WEATHER_DAY_ICON_MAP.put("0", R.mipmap.weather_day_00);
+        WEATHER_DAY_ICON_MAP.put("1", R.mipmap.weather_day_01);
+        WEATHER_DAY_ICON_MAP.put("2", R.mipmap.weather_day_02);
+        WEATHER_DAY_ICON_MAP.put("3", R.mipmap.weather_day_03);
+        WEATHER_DAY_ICON_MAP.put("4", R.mipmap.weather_day_04);
+        WEATHER_DAY_ICON_MAP.put("5", R.mipmap.weather_day_05);
+        WEATHER_DAY_ICON_MAP.put("6", R.mipmap.weather_day_06);
+        WEATHER_DAY_ICON_MAP.put("7", R.mipmap.weather_day_07);
+        WEATHER_DAY_ICON_MAP.put("8", R.mipmap.weather_day_08);
+        WEATHER_DAY_ICON_MAP.put("9", R.mipmap.weather_day_09);
         WEATHER_DAY_ICON_MAP.put("10", R.mipmap.weather_day_10);
         WEATHER_DAY_ICON_MAP.put("11", R.mipmap.weather_day_11);
         WEATHER_DAY_ICON_MAP.put("12", R.mipmap.weather_day_12);
@@ -46,16 +43,16 @@ public class Weather {
         WEATHER_DAY_ICON_MAP.put("31", R.mipmap.weather_day_31);
         WEATHER_DAY_ICON_MAP.put("53", R.mipmap.weather_day_53);
 
-        WEATHER_NIGHT_ICON_MAP.put("00", R.mipmap.weather_night_00);
-        WEATHER_NIGHT_ICON_MAP.put("01", R.mipmap.weather_night_01);
-        WEATHER_NIGHT_ICON_MAP.put("02", R.mipmap.weather_night_02);
-        WEATHER_NIGHT_ICON_MAP.put("03", R.mipmap.weather_night_03);
-        WEATHER_NIGHT_ICON_MAP.put("04", R.mipmap.weather_night_04);
-        WEATHER_NIGHT_ICON_MAP.put("05", R.mipmap.weather_night_05);
-        WEATHER_NIGHT_ICON_MAP.put("06", R.mipmap.weather_night_06);
-        WEATHER_NIGHT_ICON_MAP.put("07", R.mipmap.weather_night_07);
-        WEATHER_NIGHT_ICON_MAP.put("08", R.mipmap.weather_night_08);
-        WEATHER_NIGHT_ICON_MAP.put("09", R.mipmap.weather_night_09);
+        WEATHER_NIGHT_ICON_MAP.put("0", R.mipmap.weather_night_00);
+        WEATHER_NIGHT_ICON_MAP.put("1", R.mipmap.weather_night_01);
+        WEATHER_NIGHT_ICON_MAP.put("2", R.mipmap.weather_night_02);
+        WEATHER_NIGHT_ICON_MAP.put("3", R.mipmap.weather_night_03);
+        WEATHER_NIGHT_ICON_MAP.put("4", R.mipmap.weather_night_04);
+        WEATHER_NIGHT_ICON_MAP.put("5", R.mipmap.weather_night_05);
+        WEATHER_NIGHT_ICON_MAP.put("6", R.mipmap.weather_night_06);
+        WEATHER_NIGHT_ICON_MAP.put("7", R.mipmap.weather_night_07);
+        WEATHER_NIGHT_ICON_MAP.put("8", R.mipmap.weather_night_08);
+        WEATHER_NIGHT_ICON_MAP.put("9", R.mipmap.weather_night_09);
         WEATHER_NIGHT_ICON_MAP.put("10", R.mipmap.weather_night_10);
         WEATHER_NIGHT_ICON_MAP.put("11", R.mipmap.weather_night_11);
         WEATHER_NIGHT_ICON_MAP.put("12", R.mipmap.weather_night_12);
@@ -103,170 +100,198 @@ public class Weather {
         WIND_SPEED_MAP.put("9", "11-12级(89~102千米每小时)");
     }
 
-    private C c;
-    private ForecastList f;
+    private String reason;
+    private Result result;
+    private String errorCode;
 
-    class C {
-        String c1; // 区域 ID
-        String c2; // 城市英文名
-        String c3; // 城市中文名
-        String c4; // 城市所在市英文名
-        String c5; // 城市所在市中文名
-        String c6; // 城市所在省英文名
-        String c7; // 城市所在省中文名
-        String c8; // 城市所在国家英文名
-        String c9; // 城市所在国家中文名
-        String c10; // 城市级别
-        String c11; // 城市区号
-        String c12; // 邮编
-        String c13; // 经度
-        String c14; // 纬度
-        String c15; // 海拔
-        String c16; // 雷达站号
+    static class Result {
+        private Data data;
+    }
 
-        public String getC1() {
-            return c1;
+    class Data {
+        private Realtime realtime;
+        private Life life;
+        private Forecast[] weather;
+        private Pm pm25;
+        private String date;
+        private String isForeign;
+    }
+
+    static class Realtime {
+        public String city_code;
+        public String city_name;
+        public String date;
+        public String time;
+        public String week;
+        public String moon;
+        public String dataUptime;
+        public RealtimeWeather weather;
+        public Wind wind;
+
+        class RealtimeWeather {
+            int temperature; // 温度
+            int humidity; // 湿度
+            String info;
+            String img;
         }
 
-        public String getC2() {
-            return c2;
-        }
-
-        public String getC3() {
-            return c3;
-        }
-
-        public String getC4() {
-            return c4;
-        }
-
-        public String getC5() {
-            return c5;
-        }
-
-        public String getC6() {
-            return c6;
-        }
-
-        public String getC7() {
-            return c7;
-        }
-
-        public String getC8() {
-            return c8;
-        }
-
-        public String getC9() {
-            return c9;
-        }
-
-        public String getC10() {
-            return c10;
-        }
-
-        public String getC11() {
-            return c11;
-        }
-
-        public String getC12() {
-            return c12;
-        }
-
-        public String getC13() {
-            return c13;
-        }
-
-        public String getC14() {
-            return c14;
-        }
-
-        public String getC15() {
-            return c15;
-        }
-
-        public String getC16() {
-            return c16;
+        static class Wind {
+            private String direct; // 风向
+            private String power; // 风力
+            private String offset;
+            private String windspeed;
         }
     }
 
-    class ForecastList {
-        private String f0; // 预报发布的时间
-        private ArrayList<Forecast> f1;
-
-        public String getPublishTime() {
-            return f0;
-        }
-
-        public ArrayList<Forecast> getForecastList() {
-            return f1;
-        }
+    /** 生活指数 */
+    static class Life {
+        public String date;
+        public Info info;
     }
 
-    class Forecast {
-        String fa; // 白天天气现象编号
-        String fb; // 晚上天气现象编号
-        String fc; // 白天天气温度(摄氏度)
-        String fd; // 晚上天气温度(摄氏度)
-        String fe; // 白天风向编号
-        String ff; // 晚上风向编号
-        String fg; // 白天风力编号
-        String fh; // 晚上风力编号
-        String fi; // 日出日落时间(中间用|分割)
+    static class Info {
+        public String[] chuanyi; // 穿衣指数
+        public String[] ganmao; // 感冒指数
+        public String[] kongtiao; // 空调指数
+        public String[] wuran; // 污染指数
+        public String[] xiche; // 洗车指数
+        public String[] yundong; // 运动指数
+        public String[] ziwaixian; // 紫外线
+    }
 
-        public int getDayWeatherIcon() {
-            if (WEATHER_DAY_ICON_MAP.containsKey(fa)) {
-                return WEATHER_DAY_ICON_MAP.get(fa);
-            } else {
-                return R.mipmap.weather_undefined;
-            }
+    static class Forecast {
+        public String date;
+        public Info info;
+        private String week;
+        private String nongli;
+
+        static class Info {
+            private static final int INDEX_WEATHER_ID = 0;
+            private static final int INDEX_WEATHER = 1;
+            private static final int INDEX_TEMPERATURE = 2;
+            private static final int INDEX_WIND_DIRECTION = 3;
+            private static final int INDEX_WIND_SPEED = 3;
+
+            private String[] dawn; // 黎明
+            private String[] day; // 天气ID,天气,高温,风向,风力
+            private String[] night; // 同上
         }
 
-        public int getNightWeatherIcon() {
-            if (WEATHER_NIGHT_ICON_MAP.containsKey(fb)) {
-                return WEATHER_NIGHT_ICON_MAP.get(fb);
-            } else {
-                return R.mipmap.weather_undefined;
-            }
+        public String getDate() {
+            return date;
         }
 
-        public boolean isDayForecastAvailable() {
-            return !TextUtils.isEmpty(fa);
+        public String getWeek() {
+            return week;
+        }
+
+        public String getNongli() {
+            return nongli;
+        }
+
+        public String getDawnWeatherId() {
+            return info.dawn[Info.INDEX_WEATHER_ID];
+        }
+
+        public String getDawnWeather() {
+            return info.dawn[Info.INDEX_WEATHER];
+        }
+
+        public String getDawnTemperature() {
+            return info.dawn[Info.INDEX_TEMPERATURE];
+        }
+
+        public String getDawnWindDirection() {
+            return info.dawn[Info.INDEX_WIND_DIRECTION];
+        }
+
+        public String getDawnWindSpeed() {
+            return info.dawn[Info.INDEX_WIND_SPEED];
+        }
+
+        public String getDayWeatherId() {
+            return info.day[Info.INDEX_WEATHER_ID];
+        }
+
+        public String getDayWeather() {
+            return info.day[Info.INDEX_WEATHER];
         }
 
         public String getDayTemperature() {
-            return fc;
-        }
-
-        public String getNightTemperature() {
-            return fd;
+            return info.day[Info.INDEX_TEMPERATURE];
         }
 
         public String getDayWindDirection() {
-            return WIND_DIRECTION_MAP.get(fe);
-        }
-
-        public String getNightWindDirection() {
-            return WIND_DIRECTION_MAP.get(ff);
+            return info.day[Info.INDEX_WIND_DIRECTION];
         }
 
         public String getDayWindSpeed() {
-            return WIND_SPEED_MAP.get(fg);
+            return info.day[Info.INDEX_WIND_SPEED];
+        }
+
+        public String getNightWeatherId() {
+            return info.night[Info.INDEX_WEATHER_ID];
+        }
+
+        public String getNightWeather() {
+            return info.night[Info.INDEX_WEATHER];
+        }
+
+        public String getNightTemperature() {
+            return info.night[Info.INDEX_TEMPERATURE];
+        }
+
+        public String getNightWindDirection() {
+            return info.night[Info.INDEX_WIND_DIRECTION];
         }
 
         public String getNightWindSpeed() {
-            return WIND_SPEED_MAP.get(fh);
+            return info.night[Info.INDEX_WIND_SPEED];
+        }
+
+        public boolean isDawnAvailable() {
+            return info.dawn != null;
+        }
+
+        public boolean isDayAvailable() {
+            return info.day != null;
+        }
+
+        public int getDawnWeatherIcon() {
+            return WEATHER_DAY_ICON_MAP.get(info.dawn[Info.INDEX_WEATHER_ID]);
+        }
+
+        public int getDayWeatherIcon() {
+            return WEATHER_DAY_ICON_MAP.get(info.day[Info.INDEX_WEATHER_ID]);
+        }
+
+        public int getNightWeatherIcon() {
+            return WEATHER_NIGHT_ICON_MAP.get(info.night[Info.INDEX_WEATHER_ID]);
         }
     }
 
-    public String getCityName() {
-        return c.getC3();
+    static class Pm {
+        private String key;
+        private String show_desc;
+        private Pm25 pm25;
+        private String dateTime;
+        private String cityName;
+
+        static class Pm25 {
+            private int curPm;
+            private int pm25;
+            private int pm10;
+            private int level;
+            private String quality;
+            private String des;
+        }
     }
 
-    public String getPublishTime() {
-        return f.getPublishTime();
+    public Realtime getWeather() {
+        return result.data.realtime;
     }
 
-    public ArrayList<Weather.Forecast> getForecastList() {
-        return f.getForecastList();
+    public Forecast[] getForecast() {
+        return result.data.weather;
     }
 }
