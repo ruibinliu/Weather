@@ -170,7 +170,7 @@ public class Weather {
             private static final int INDEX_WEATHER = 1;
             private static final int INDEX_TEMPERATURE = 2;
             private static final int INDEX_WIND_DIRECTION = 3;
-            private static final int INDEX_WIND_SPEED = 3;
+            private static final int INDEX_WIND_SPEED = 4;
 
             private String[] dawn; // 黎明
             private String[] day; // 天气ID,天气,高温,风向,风力
