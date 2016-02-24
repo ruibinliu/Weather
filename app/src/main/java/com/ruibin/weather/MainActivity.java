@@ -2,6 +2,7 @@ package com.ruibin.weather;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -186,27 +187,49 @@ public class MainActivity extends AppCompatActivity {
 
                 mTimeView.setText(item.getDate());
 
+                bindDawnView(item);
+                bindDayView(item);
+                bindNightView(item);
+            }
+
+            private void bindDawnView(Weather.Forecast item) {
                 if (item.isDawnAvailable()) {
                     mDawnLayout.setVisibility(View.VISIBLE);
-                    mDawnWeatherView.setImageResource(item.getDawnWeatherIcon());
+                    Integer icon = item.getDawnWeatherIcon();
+                    if (icon != null) {
+                        mDawnWeatherView.setImageResource(icon);
+                    }
+                    mDawnWeatherView.setBackgroundColor(Color.WHITE);
                     mDawnTemperatureView.setText(item.getDayTemperature() + "℃");
                     mDawnWindDirectionView.setText(item.getDayWindDirection());
                     mDawnWindSpeedView.setText(item.getDayWindSpeed());
                 } else {
                     mDawnLayout.setVisibility(View.GONE);
                 }
+            }
 
+            private void bindDayView(Weather.Forecast item) {
                 if (item.isDayAvailable()) {
                     mDayLayout.setVisibility(View.VISIBLE);
-                    mDayWeatherView.setImageResource(item.getDayWeatherIcon());
+                    Integer icon = item.getDayWeatherIcon();
+                    if (icon != null) {
+                        mDayWeatherView.setImageResource(icon);
+                    }
+                    mDayWeatherView.setBackgroundColor(Color.WHITE);
                     mDayTemperatureView.setText(item.getDayTemperature() + "℃");
                     mDayWindDirectionView.setText(item.getDayWindDirection());
                     mDayWindSpeedView.setText(item.getDayWindSpeed());
                 } else {
                     mDayLayout.setVisibility(View.GONE);
                 }
+            }
 
-                mNightWeatherView.setImageResource(item.getNightWeatherIcon());
+            private void bindNightView(Weather.Forecast item) {
+                Integer icon = item.getNightWeatherIcon();
+                if (icon != null) {
+                    mNightWeatherView.setImageResource(icon);
+                }
+                mNightWeatherView.setBackgroundColor(Color.WHITE);
                 mNightTemperatureView.setText(item.getNightTemperature() + "℃");
                 mNightWindDirectionView.setText(item.getNightWindDirection());
                 mNightWindSpeedView.setText(item.getNightWindSpeed());

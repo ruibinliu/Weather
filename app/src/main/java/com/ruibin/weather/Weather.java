@@ -257,15 +257,15 @@ public class Weather {
             return info.day != null;
         }
 
-        public int getDawnWeatherIcon() {
+        public Integer getDawnWeatherIcon() {
             return WEATHER_DAY_ICON_MAP.get(info.dawn[Info.INDEX_WEATHER_ID]);
         }
 
-        public int getDayWeatherIcon() {
+        public Integer getDayWeatherIcon() {
             return WEATHER_DAY_ICON_MAP.get(info.day[Info.INDEX_WEATHER_ID]);
         }
 
-        public int getNightWeatherIcon() {
+        public Integer getNightWeatherIcon() {
             return WEATHER_NIGHT_ICON_MAP.get(info.night[Info.INDEX_WEATHER_ID]);
         }
     }
