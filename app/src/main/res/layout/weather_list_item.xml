@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/item_margin"
-    android:background="@android:color/white"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
     card_view:cardCornerRadius="0dp"
@@ -15,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/item_margin"
-        android:background="@android:color/white"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
@@ -45,26 +43,13 @@
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textColor="@color/colorPrimary"/>
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/dawn_wind"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/item_margin"
                 android:layout_weight="1"
-                android:background="@android:color/white"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/dawn_wind_direction"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?attr/textAppearanceListItem"/>
-
-                <TextView
-                    android:id="@+id/dawn_wind_speed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?attr/textAppearanceListItem"/>
-            </LinearLayout>
+                android:textAppearance="?attr/textAppearanceListItem"/>
 
             <TextView
                 android:id="@+id/dawn_temperature"
@@ -94,26 +79,18 @@
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textColor="@color/colorPrimary"/>
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/day_wind"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/item_margin"
                 android:layout_weight="1"
-                android:background="@android:color/white"
-                android:orientation="vertical">
+                android:textAppearance="?attr/textAppearanceListItem"/>
 
-                <TextView
-                    android:id="@+id/day_wind_direction"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?attr/textAppearanceListItem"/>
-
-                <TextView
-                    android:id="@+id/day_wind_speed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?attr/textAppearanceListItem"/>
-            </LinearLayout>
+            <TextView
+                android:id="@+id/day_wind_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceListItem"/>
 
             <TextView
                 android:id="@+id/day_temperature"
@@ -142,26 +119,12 @@
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textColor="@color/colorPrimary"/>
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/night_wind"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/item_margin"
                 android:layout_weight="1"
-                android:background="@android:color/white"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/night_wind_direction"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?attr/textAppearanceListItem"/>
-
-                <TextView
-                    android:id="@+id/night_wind_speed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?attr/textAppearanceListItem"/>
-            </LinearLayout>
+                android:textAppearance="?attr/textAppearanceListItem"/>
 
             <TextView
                 android:id="@+id/night_temperature"

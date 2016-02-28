@@ -155,18 +155,15 @@ public class MainActivity extends AppCompatActivity {
 
             public final ImageView mDawnWeatherView;
             public final TextView mDawnTemperatureView;
-            public final TextView mDawnWindDirectionView;
-            public final TextView mDawnWindSpeedView;
+            public final TextView mDawnWindView;
 
             public final ImageView mDayWeatherView;
             public final TextView mDayTemperatureView;
-            public final TextView mDayWindDirectionView;
-            public final TextView mDayWindSpeedView;
+            public final TextView mDayWindView;
 
             public final ImageView mNightWeatherView;
             public final TextView mNightTemperatureView;
-            public final TextView mNightWindDirectionView;
-            public final TextView mNightWindSpeedView;
+            public final TextView mNightWindView;
 
             public ViewHolder(View view) {
                 super(view);
@@ -176,16 +173,13 @@ public class MainActivity extends AppCompatActivity {
                 mTimeView = (TextView)view.findViewById(R.id.time);
                 mDawnWeatherView = (ImageView) view.findViewById(R.id.dawn_weather);
                 mDawnTemperatureView = (TextView) view.findViewById(R.id.dawn_temperature);
-                mDawnWindDirectionView = (TextView) view.findViewById(R.id.dawn_wind_direction);
-                mDawnWindSpeedView = (TextView) view.findViewById(R.id.dawn_wind_speed);
+                mDawnWindView = (TextView) view.findViewById(R.id.dawn_wind);
                 mDayWeatherView = (ImageView) view.findViewById(R.id.day_weather);
                 mDayTemperatureView = (TextView) view.findViewById(R.id.day_temperature);
-                mDayWindDirectionView = (TextView) view.findViewById(R.id.day_wind_direction);
-                mDayWindSpeedView = (TextView) view.findViewById(R.id.day_wind_speed);
+                mDayWindView = (TextView) view.findViewById(R.id.day_wind_direction);
                 mNightWeatherView = (ImageView) view.findViewById(R.id.night_weather);
                 mNightTemperatureView = (TextView) view.findViewById(R.id.night_temperature);
-                mNightWindDirectionView = (TextView) view.findViewById(R.id.night_wind_direction);
-                mNightWindSpeedView = (TextView) view.findViewById(R.id.night_wind_speed);
+                mNightWindView = (TextView) view.findViewById(R.id.night_wind_direction);
             }
 
             public void bind(int position) {
@@ -211,10 +205,9 @@ public class MainActivity extends AppCompatActivity {
                         }
                         mDawnWeatherView.setImageBitmap(bitmap);
                     }
-                    mDawnWeatherView.setBackgroundColor(Color.WHITE);
                     mDawnTemperatureView.setText(item.getDayTemperature() + "℃");
-                    mDawnWindDirectionView.setText(item.getDayWindDirection());
-                    mDawnWindSpeedView.setText(item.getDayWindSpeed());
+                    mDawnWindView.setText(String.format("%s\n%s",
+                            item.getDayWindDirection(), item.getDayWindSpeed()));
                 } else {
                     mDawnLayout.setVisibility(View.GONE);
                 }
@@ -233,10 +226,9 @@ public class MainActivity extends AppCompatActivity {
                         }
                         mDayWeatherView.setImageBitmap(bitmap);
                     }
-                    mDayWeatherView.setBackgroundColor(Color.WHITE);
                     mDayTemperatureView.setText(item.getDayTemperature() + "℃");
-                    mDayWindDirectionView.setText(item.getDayWindDirection());
-                    mDayWindSpeedView.setText(item.getDayWindSpeed());
+                    mDayWindView.setText(String.format("%s\n%s",
+                            item.getDayWindDirection(), item.getDayWindSpeed()));
                 } else {
                     mDayLayout.setVisibility(View.GONE);
                 }
@@ -253,10 +245,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                     mNightWeatherView.setImageBitmap(bitmap);
                 }
-                mNightWeatherView.setBackgroundColor(Color.WHITE);
                 mNightTemperatureView.setText(item.getNightTemperature() + "℃");
-                mNightWindDirectionView.setText(item.getNightWindDirection());
-                mNightWindSpeedView.setText(item.getNightWindSpeed());
+                mNightWindView.setText(String.format("%s\n%s",
+                        item.getNightWindDirection(), item.getNightWindSpeed()));
             }
         }
     }
