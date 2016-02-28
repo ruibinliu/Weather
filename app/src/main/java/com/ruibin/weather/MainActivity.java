@@ -1,13 +1,15 @@
 package com.ruibin.weather;
 
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,8 +20,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
+    private static SparseArray<Bitmap> mWeatherIconCache = new SparseArray<Bitmap>();
+
     private RecyclerView mRecyclerView;
     private Weather mWeather;
     private String[] mCityList;
@@ -90,7 +95,8 @@ public class MainActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(mWeather));
+                            mRecyclerView.setAdapter(
+                                    new SimpleItemRecyclerViewAdapter(mWeather));
                         }
                     });
                 } catch (IOException e) {
@@ -197,7 +203,13 @@ public class MainActivity extends AppCompatActivity {
                     mDawnLayout.setVisibility(View.VISIBLE);
                     Integer icon = item.getDawnWeatherIcon();
                     if (icon != null) {
-                        mDawnWeatherView.setImageResource(icon);
+                        Bitmap bitmap = mWeatherIconCache.get(icon);
+                        if (bitmap == null) {
+                            InputStream is = getResources().openRawResource(icon);
+                            bitmap = BitmapFactory.decodeStream(is);
+                            mWeatherIconCache.put(icon, bitmap);
+                        }
+                        mDawnWeatherView.setImageBitmap(bitmap);
                     }
                     mDawnWeatherView.setBackgroundColor(Color.WHITE);
                     mDawnTemperatureView.setText(item.getDayTemperature() + "℃");
@@ -213,7 +225,13 @@ public class MainActivity extends AppCompatActivity {
                     mDayLayout.setVisibility(View.VISIBLE);
                     Integer icon = item.getDayWeatherIcon();
                     if (icon != null) {
-                        mDayWeatherView.setImageResource(icon);
+                        Bitmap bitmap = mWeatherIconCache.get(icon);
+                        if (bitmap == null) {
+                            InputStream is = getResources().openRawResource(icon);
+                            bitmap = BitmapFactory.decodeStream(is);
+                            mWeatherIconCache.put(icon, bitmap);
+                        }
+                        mDayWeatherView.setImageBitmap(bitmap);
                     }
                     mDayWeatherView.setBackgroundColor(Color.WHITE);
                     mDayTemperatureView.setText(item.getDayTemperature() + "℃");
@@ -227,7 +245,13 @@ public class MainActivity extends AppCompatActivity {
             private void bindNightView(Weather.Forecast item) {
                 Integer icon = item.getNightWeatherIcon();
                 if (icon != null) {
-                    mNightWeatherView.setImageResource(icon);
+                    Bitmap bitmap = mWeatherIconCache.get(icon);
+                    if (bitmap == null) {
+                        InputStream is = getResources().openRawResource(icon);
+                        bitmap = BitmapFactory.decodeStream(is);
+                        mWeatherIconCache.put(icon, bitmap);
+                    }
+                    mNightWeatherView.setImageBitmap(bitmap);
                 }
                 mNightWeatherView.setBackgroundColor(Color.WHITE);
                 mNightTemperatureView.setText(item.getNightTemperature() + "℃");
