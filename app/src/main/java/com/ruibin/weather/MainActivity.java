@@ -203,12 +203,8 @@ public class MainActivity extends AppCompatActivity {
                     mDawnLayout.setVisibility(View.VISIBLE);
                     Integer icon = item.getDawnWeatherIcon();
                     if (icon != null) {
-                        Bitmap bitmap = mWeatherIconCache.get(icon);
-                        if (bitmap == null) {
-                            InputStream is = getResources().openRawResource(icon);
-                            bitmap = BitmapFactory.decodeStream(is);
-                            mWeatherIconCache.put(icon, bitmap);
-                        }
+                        InputStream is = getResources().openRawResource(icon);
+                        Bitmap bitmap = BitmapFactory.decodeStream(is);
                         mDawnWeatherView.setImageBitmap(bitmap);
                     }
                     mDawnWeatherView.setBackgroundColor(Color.WHITE);
@@ -225,12 +221,8 @@ public class MainActivity extends AppCompatActivity {
                     mDayLayout.setVisibility(View.VISIBLE);
                     Integer icon = item.getDayWeatherIcon();
                     if (icon != null) {
-                        Bitmap bitmap = mWeatherIconCache.get(icon);
-                        if (bitmap == null) {
-                            InputStream is = getResources().openRawResource(icon);
-                            bitmap = BitmapFactory.decodeStream(is);
-                            mWeatherIconCache.put(icon, bitmap);
-                        }
+                        InputStream is = getResources().openRawResource(icon);
+                        Bitmap bitmap = BitmapFactory.decodeStream(is);
                         mDayWeatherView.setImageBitmap(bitmap);
                     }
                     mDayWeatherView.setBackgroundColor(Color.WHITE);
@@ -245,12 +237,8 @@ public class MainActivity extends AppCompatActivity {
             private void bindNightView(Weather.Forecast item) {
                 Integer icon = item.getNightWeatherIcon();
                 if (icon != null) {
-                    Bitmap bitmap = mWeatherIconCache.get(icon);
-                    if (bitmap == null) {
-                        InputStream is = getResources().openRawResource(icon);
-                        bitmap = BitmapFactory.decodeStream(is);
-                        mWeatherIconCache.put(icon, bitmap);
-                    }
+                    InputStream is = getResources().openRawResource(icon);
+                    Bitmap bitmap = BitmapFactory.decodeStream(is);
                     mNightWeatherView.setImageBitmap(bitmap);
                 }
                 mNightWeatherView.setBackgroundColor(Color.WHITE);
