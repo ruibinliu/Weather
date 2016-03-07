@@ -176,10 +176,10 @@ public class MainActivity extends AppCompatActivity {
                 mDawnWindView = (TextView) view.findViewById(R.id.dawn_wind);
                 mDayWeatherView = (ImageView) view.findViewById(R.id.day_weather);
                 mDayTemperatureView = (TextView) view.findViewById(R.id.day_temperature);
-                mDayWindView = (TextView) view.findViewById(R.id.day_wind_direction);
+                mDayWindView = (TextView) view.findViewById(R.id.day_wind);
                 mNightWeatherView = (ImageView) view.findViewById(R.id.night_weather);
                 mNightTemperatureView = (TextView) view.findViewById(R.id.night_temperature);
-                mNightWindView = (TextView) view.findViewById(R.id.night_wind_direction);
+                mNightWindView = (TextView) view.findViewById(R.id.night_wind);
             }
 
             public void bind(int position) {

@@ -1,5 +1,9 @@
 package com.ruibin.weather;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 public class Weather {
@@ -103,6 +107,73 @@ public class Weather {
     private String reason;
     private Result result;
     private String errorCode;
+
+    public Weather() {
+    }
+
+    public Weather(JSONObject jsonObject) throws JSONException {
+        result = new Result();
+        result.data = new Data();
+        JSONObject jsonResult = jsonObject.getJSONObject("result");
+        JSONObject jsonData = jsonResult.getJSONObject("data");
+        JSONArray jsonWeather = jsonData.getJSONArray("weather");
+        int length = jsonWeather.length();
+        result.data.weather = new Forecast[length];
+        for (int i = 0; i < length; i++) {
+            JSONObject jsonWeatherObject = jsonWeather.getJSONObject(i);
+
+            result.data.weather[i] = new Forecast();
+            result.data.weather[i].date = jsonWeatherObject.getString("date");
+
+            JSONObject jsonInfoObject = jsonWeatherObject.getJSONObject("info");
+            result.data.weather[i].info = new Forecast.Info();
+            try {
+                JSONArray jsonDawnForecast = jsonInfoObject.getJSONArray("dawn");
+                result.data.weather[i].info.dawn = new String[jsonDawnForecast.length()];
+                result.data.weather[i].info.dawn[0]
+                        = jsonDawnForecast.getString(0); // 天气ID
+                result.data.weather[i].info.dawn[1]
+                        = jsonDawnForecast.getString(1); // 天气文字
+                result.data.weather[i].info.dawn[2]
+                        = jsonDawnForecast.getString(2); // 气温
+                result.data.weather[i].info.dawn[3]
+                        = jsonDawnForecast.getString(3); // 风向
+                result.data.weather[i].info.dawn[4]
+                        = jsonDawnForecast.getString(4); // 风力
+            } catch (JSONException e) {
+            }
+            try {
+                JSONArray jsonDayForecast = jsonInfoObject.getJSONArray("day");
+                result.data.weather[i].info.day = new String[jsonDayForecast.length()];
+                result.data.weather[i].info.day[0]
+                        = jsonDayForecast.getString(0); // 天气ID
+                result.data.weather[i].info.day[1]
+                        = jsonDayForecast.getString(1); // 天气文字
+                result.data.weather[i].info.day[2]
+                        = jsonDayForecast.getString(2); // 气温
+                result.data.weather[i].info.day[3]
+                        = jsonDayForecast.getString(3); // 风向
+                result.data.weather[i].info.day[4]
+                        = jsonDayForecast.getString(4); // 风力
+            } catch (JSONException e) {
+            }
+            try {
+                JSONArray jsonNightForecast = jsonInfoObject.getJSONArray("night");
+                result.data.weather[i].info.night = new String[jsonNightForecast.length()];
+                result.data.weather[i].info.night[0]
+                        = jsonNightForecast.getString(0); // 天气ID
+                result.data.weather[i].info.night[1]
+                        = jsonNightForecast.getString(1); // 天气文字
+                result.data.weather[i].info.night[2]
+                        = jsonNightForecast.getString(2); // 气温
+                result.data.weather[i].info.night[3]
+                        = jsonNightForecast.getString(3); // 风向
+                result.data.weather[i].info.night[4]
+                        = jsonNightForecast.getString(4); // 风力
+            } catch (JSONException e) {
+            }
+        }
+    }
 
     static class Result {
         private Data data;

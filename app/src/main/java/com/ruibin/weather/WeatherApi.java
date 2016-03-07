@@ -5,6 +5,9 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,12 +34,31 @@ public class WeatherApi {
         } else {
             result = httpGet(WEATHER_API_ADDRESS + "?city=" + URLEncoder.encode(city, "UTF-8"));
         }
-
         Log.d("Weather", "result: " + result);
-        Gson gson = new Gson();
-        Weather weather = gson.fromJson(result, Weather.class);
-        Log.d("Weather", weather.toString());
+
+        Weather weather;
+        weather = parseWeatherByGson(result);
+        weather = parseWeatherByJsonObject(result);
+
         return weather;
+    }
+
+    private static Weather parseWeatherByGson(String json) {
+        Gson gson = new Gson();
+        Weather weather = gson.fromJson(json, Weather.class);
+        return weather;
+    }
+
+    private static Weather parseWeatherByJsonObject(String json) {
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            Weather weather = new Weather(jsonObject);
+            return weather;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public static String httpGet(String urlString) throws IOException {
